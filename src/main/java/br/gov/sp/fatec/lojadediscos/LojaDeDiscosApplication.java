@@ -6,8 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class LojaDeDiscosApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(LojaDeDiscosApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(LojaDeDiscosApplication.class, args);
+    }
 }
