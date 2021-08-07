@@ -1,5 +1,6 @@
 package br.gov.sp.fatec.lojadediscos.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -28,6 +29,9 @@ public class Album {
     @Column(name = "alb_nome")
     private String nome;
 
+    @Column(name = "alb_ano")
+    private Integer ano;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "aar_album_artista",
@@ -35,7 +39,11 @@ public class Album {
             inverseJoinColumns = @JoinColumn(name = "art_id"))
     private Set<Artista> artistas = new HashSet<>();
 
-    @OneToMany(mappedBy = "album", fetch = FetchType.LAZY)
+    @OneToMany(
+            mappedBy = "album",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private List<Faixa> faixas = new ArrayList<>();
 
     public Long getAlbumId() {
@@ -54,6 +62,14 @@ public class Album {
         this.nome = nome;
     }
 
+    public Integer getAno() {
+        return ano;
+    }
+
+    public void setAno(Integer ano) {
+        this.ano = ano;
+    }
+
     public Set<Artista> getArtistas() {
         return artistas;
     }
@@ -68,5 +84,15 @@ public class Album {
 
     public void setFaixas(List<Faixa> faixas) {
         this.faixas = faixas;
+    }
+
+    public void addFaixa(Faixa faixa) {
+        faixas.add(faixa);
+        faixa.setAlbum(this);
+    }
+
+    public void removeFaixa(Faixa faixa) {
+        faixas.remove(faixa);
+        faixa.setAlbum(null);
     }
 }

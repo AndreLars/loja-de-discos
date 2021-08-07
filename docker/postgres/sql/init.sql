@@ -4,7 +4,7 @@ create table public.alb_album
 (
     alb_id   bigserial,
     alb_nome varchar(255) not null,
-    alb_ano  numeric(4)   not null,
+    alb_ano  integer      not null,
     primary key (alb_id)
 );
 
@@ -36,3 +36,4 @@ create table public.fai_faixa
 );
 
 grant select, insert, delete, update on alb_album, art_artista, aar_album_artista, fai_faixa to lojadediscos;
+grant all privileges on sequence aar_album_artista_alb_id_seq, aar_album_artista_art_id_seq, alb_album_alb_id_seq, art_artista_art_id_seq, fai_faixa_alb_id_seq, fai_faixa_fai_id_seq to lojadediscos;
