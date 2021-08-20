@@ -95,4 +95,14 @@ public class Album {
         faixas.remove(faixa);
         faixa.setAlbum(null);
     }
+
+    public void addArtista(Artista artista) {
+        artistas.add(artista);
+        artista.addAlbum(this);
+    }
+
+    public void removeArtista(Artista artista) {
+        artistas.remove(artista);
+        artista.removeAlbum(this);
+    }
 }

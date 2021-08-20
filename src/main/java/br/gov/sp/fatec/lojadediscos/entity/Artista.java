@@ -49,4 +49,12 @@ public class Artista {
     public void setAlbums(Set<Album> albums) {
         this.albums = albums;
     }
+
+    public void addAlbum(Album album) {
+        albums.add(album);
+    }
+
+    public void removeAlbum(Album album) {
+        albums.remove(album);
+    }
 }
