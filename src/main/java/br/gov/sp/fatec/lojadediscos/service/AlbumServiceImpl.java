@@ -5,7 +5,6 @@ import br.gov.sp.fatec.lojadediscos.entity.Artista;
 import br.gov.sp.fatec.lojadediscos.entity.Faixa;
 import br.gov.sp.fatec.lojadediscos.repository.AlbumRepository;
 import br.gov.sp.fatec.lojadediscos.repository.ArtistaRepository;
-import br.gov.sp.fatec.lojadediscos.repository.FaixaRepository;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,9 +20,6 @@ public class AlbumServiceImpl implements AlbumService {
 
     @Autowired
     private ArtistaRepository artistaRepository;
-
-    @Autowired
-    private FaixaRepository faixaRepository;
 
     @Transactional
     @Override
@@ -53,5 +49,10 @@ public class AlbumServiceImpl implements AlbumService {
             i++;
         }
         albumRepository.save(novoAlbum);
+    }
+
+    @Override
+    public Album findAlbumById(long albumId) {
+        return albumRepository.findById(albumId).orElseThrow();
     }
 }

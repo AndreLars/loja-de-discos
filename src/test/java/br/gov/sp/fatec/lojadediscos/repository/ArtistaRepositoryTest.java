@@ -10,8 +10,6 @@ import org.springframework.test.annotation.Rollback;
 import javax.transaction.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -43,7 +41,6 @@ class ArtistaRepositoryTest {
         final var artista = new Artista();
         artista.setNome("Artista1");
         artistaRepository.save(artista);
-        assertFalse(artistaRepository.findAll().isEmpty());
         artistaRepository.delete(artista);
         assertTrue(artistaRepository.findAll().isEmpty());
     }
