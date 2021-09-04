@@ -1,11 +1,11 @@
 package br.gov.sp.fatec.lojadediscos.service;
 
+import br.gov.sp.fatec.lojadediscos.controller.PostFaixaDTO;
 import br.gov.sp.fatec.lojadediscos.entity.Album;
 import br.gov.sp.fatec.lojadediscos.entity.Artista;
 import br.gov.sp.fatec.lojadediscos.entity.Faixa;
 import br.gov.sp.fatec.lojadediscos.repository.AlbumRepository;
 import br.gov.sp.fatec.lojadediscos.repository.ArtistaRepository;
-import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ public class AlbumServiceImpl implements AlbumService {
 
     @Transactional
     @Override
-    public void novoAlbum(String nomeAlbum, Integer anoAlbum, List<String> nomesArtistas, List<Pair<String, Integer>> listaFaixas) {
+    public void novoAlbum(String nomeAlbum, Integer anoAlbum, List<String> nomesArtistas, List<PostFaixaDTO> listaFaixas) {
         if(nomesArtistas.isEmpty()) {
             throw new IllegalArgumentException();
         }
@@ -40,11 +40,11 @@ public class AlbumServiceImpl implements AlbumService {
             artistaRepository.save(novoArtista);
         }
         int i = 0;
-        for(Pair<String, Integer> faixa : listaFaixas) {
+        for(PostFaixaDTO faixa : listaFaixas) {
             final var novaFaixa = new Faixa();
             novaFaixa.setOrdem(i);
-            novaFaixa.setNome(faixa.getKey());
-            novaFaixa.setDuracao(faixa.getValue());
+            novaFaixa.setNome(faixa.getNome());
+            novaFaixa.setDuracao(faixa.getDuracao());
             novoAlbum.addFaixa(novaFaixa);
             i++;
         }
@@ -54,5 +54,21 @@ public class AlbumServiceImpl implements AlbumService {
     @Override
     public Album findAlbumById(long albumId) {
         return albumRepository.findById(albumId).orElseThrow();
+    }
+
+    @Override
+    public Album findAlbumByNome(String nome) {
+        return albumRepository.findByNome(nome).orElseThrow();
+    }
+
+    @Override
+    public void removeAlbumById(long albumId) {
+        albumRepository.deleteById(albumId);
+    }
+
+    @Override
+    public void putAlbum(Album album) {
+        albumRepository.findById(album.getAlbumId()).orElseThrow();
+        albumRepository.save(album);
     }
 }

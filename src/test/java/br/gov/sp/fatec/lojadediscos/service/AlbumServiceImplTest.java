@@ -1,10 +1,10 @@
 package br.gov.sp.fatec.lojadediscos.service;
 
+import br.gov.sp.fatec.lojadediscos.controller.PostFaixaDTO;
+import br.gov.sp.fatec.lojadediscos.controller.PutFaixaDTO;
 import br.gov.sp.fatec.lojadediscos.repository.AlbumRepository;
 import br.gov.sp.fatec.lojadediscos.repository.ArtistaRepository;
 import br.gov.sp.fatec.lojadediscos.repository.FaixaRepository;
-import org.apache.commons.lang3.tuple.MutablePair;
-import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,9 +41,7 @@ class AlbumServiceImplTest {
         List<String> listaArtistas = new ArrayList<>();
         listaArtistas.add(artista1);
 
-        List<Pair<String, Integer>> listaFaixas = new ArrayList<>();
-        Pair<String, Integer> faixa = new MutablePair<>(faixa1, faixaDuracao);
-        listaFaixas.add(faixa);
+        List<PostFaixaDTO> listaFaixas = List.of(new PostFaixaDTO(faixa1, faixaDuracao));
 
         albumService.novoAlbum(album1, anoAlbum, listaArtistas, listaFaixas);
         assertEquals(
@@ -59,7 +57,7 @@ class AlbumServiceImplTest {
         final var nomeAlbum = "Album1";
         final var anoAlbum = 2019;
         List<String> listaArtistas = new ArrayList<>();
-        List<Pair<String, Integer>> listaFaixas = new ArrayList<>();
+        List<PostFaixaDTO> listaFaixas = new ArrayList<>();
         assertThrows(
                 IllegalArgumentException.class,
                 () -> albumService.novoAlbum(nomeAlbum, anoAlbum, listaArtistas, listaFaixas));

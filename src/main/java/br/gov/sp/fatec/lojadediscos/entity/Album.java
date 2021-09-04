@@ -1,5 +1,6 @@
 package br.gov.sp.fatec.lojadediscos.entity;
 
+import br.gov.sp.fatec.lojadediscos.controller.PutAlbumDTO;
 import br.gov.sp.fatec.lojadediscos.util.Views;
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -37,7 +38,7 @@ public class Album {
     @JsonView(Views.Public.class)
     private Integer ano;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "aar_album_artista",
             joinColumns = @JoinColumn(name = "alb_id"),
@@ -52,6 +53,8 @@ public class Album {
             orphanRemoval = true)
     @JsonView(Views.Public.class)
     private List<Faixa> faixas = new ArrayList<>();
+
+    public Album() {}
 
     public Long getAlbumId() {
         return albumId;
@@ -111,5 +114,28 @@ public class Album {
     public void removeArtista(Artista artista) {
         artistas.remove(artista);
         artista.removeAlbum(this);
+    }
+
+    public static Album fromPutAlbumDTO(PutAlbumDTO albumDTO) {
+        final var album = new Album();
+        album.setAlbumId(albumDTO.getAlbumId());
+        album.setNome(albumDTO.getNome());
+        album.setAno(albumDTO.getAno());
+        for (final var artistaNome : albumDTO.getArtistas()) {
+            final var newArtista = new Artista();
+            newArtista.setNome(artistaNome);
+            album.addArtista(newArtista);
+        }
+
+        for (final var faixa : albumDTO.getFaixas()) {
+            final var newFaixa = new Faixa();
+            newFaixa.setFaixaId(faixa.getFaixaId());
+            newFaixa.setDuracao(faixa.getDuracao());
+            newFaixa.setNome(faixa.getNome());
+            newFaixa.setOrdem(faixa.getOrdem());
+            album.addFaixa(newFaixa);
+        }
+
+        return album;
     }
 }

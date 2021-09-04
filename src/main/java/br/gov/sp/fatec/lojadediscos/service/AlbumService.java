@@ -1,7 +1,7 @@
 package br.gov.sp.fatec.lojadediscos.service;
 
+import br.gov.sp.fatec.lojadediscos.controller.PostFaixaDTO;
 import br.gov.sp.fatec.lojadediscos.entity.Album;
-import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 
@@ -10,7 +10,13 @@ public interface AlbumService {
             String nomeAlbum,
             Integer anoAlbum,
             List<String> nomesArtistas,
-            List<Pair<String, Integer>> listaFaixas);
+            List<PostFaixaDTO> listaFaixas);
 
     Album findAlbumById(long albumId);
+
+    Album findAlbumByNome(String nome);
+
+    void removeAlbumById(long albumId);
+
+    void putAlbum(Album album);
 }
