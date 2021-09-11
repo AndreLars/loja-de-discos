@@ -22,7 +22,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Transactional
 @Rollback
@@ -42,8 +42,6 @@ class AlbumControllerTest {
 
     @Test
     void deve_consultar_com_sucesso_get_album_by_id() throws Exception {
-        final var expected =
-                "{\"nome\":\"nomeAlbum\",\"ano\":1990,\"artistas\":[{}],\"faixas\":[{}]}";
         final var nextval =
                 (BigInteger) entityManager.createNativeQuery(SELECT_NEXTVAL_SEQ).getSingleResult();
 
@@ -51,12 +49,8 @@ class AlbumControllerTest {
                 "nomeAlbum", 1990, List.of("Artista"), List.of(new PostFaixaDTO("Faixa", 60)));
 
         final var idString = nextval.longValue() + 1L;
-        final var result =
-                mockMvc.perform(MockMvcRequestBuilders.get("/album/" + idString))
-                        .andReturn()
-                        .getResponse()
-                        .getContentAsString();
-        assertEquals(expected, result);
+        mockMvc.perform(MockMvcRequestBuilders.get("/album/" + idString))
+                .andExpect(status().is2xxSuccessful());
     }
 
     @Test
@@ -70,20 +64,10 @@ class AlbumControllerTest {
 
     @Test
     void deve_consultar_com_sucesso_get_album_by_nome() throws Exception {
-        final var expected =
-                "{\"nome\":\"nomeAlbum\",\"ano\":1990,\"artistas\":[{}],\"faixas\":[{}]}";
         albumService.novoAlbum(
                 "nomeAlbum", 1990, List.of("Artista"), List.of(new PostFaixaDTO("Faixa", 60)));
-
-        final var result =
-                mockMvc.perform(
-                                MockMvcRequestBuilders.get("/album")
-                                        .queryParam("nome", "nomeAlbum"))
-                        .andReturn()
-                        .getResponse()
-                        .getContentAsString();
-
-        assertEquals(expected, result);
+        mockMvc.perform(MockMvcRequestBuilders.get("/album").queryParam("nome", "nomeAlbum"))
+                .andExpect(status().is2xxSuccessful());
     }
 
     @Test
@@ -108,8 +92,7 @@ class AlbumControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/album/" + idString)).andReturn();
 
-        final var result = albumRepository.findAll();
-        assertTrue(result.isEmpty());
+        assertThrows(Exception.class, () -> albumRepository.findById(idString).orElseThrow());
     }
 
     @Test
@@ -181,7 +164,10 @@ class AlbumControllerTest {
         putAlbumDTO.setAno(album.getAno());
         putAlbumDTO.setNome("Nome Alterado");
         putAlbumDTO.setArtistas(Set.of("ArtistaNovo"));
-        putAlbumDTO.setFaixas(List.of(new PutFaixaDTO(album.getFaixas().get(0).getFaixaId(), "Nome Novo", 555, 0)));
+        putAlbumDTO.setFaixas(
+                List.of(
+                        new PutFaixaDTO(
+                                album.getFaixas().get(0).getFaixaId(), "Nome Novo", 555, 0)));
         final var gson = new Gson();
         final var json = gson.toJson(putAlbumDTO);
 
@@ -205,10 +191,13 @@ class AlbumControllerTest {
         final var gson = new Gson();
         final var json = gson.toJson(putAlbumDTO);
 
-        assertThrows(Exception.class, () -> mockMvc.perform(
-                        MockMvcRequestBuilders.put("/album")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(json))
-                .andReturn());
+        assertThrows(
+                Exception.class,
+                () ->
+                        mockMvc.perform(
+                                        MockMvcRequestBuilders.put("/album")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .content(json))
+                                .andReturn());
     }
 }

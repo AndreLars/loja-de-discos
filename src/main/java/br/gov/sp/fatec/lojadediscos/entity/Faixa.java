@@ -1,5 +1,8 @@
 package br.gov.sp.fatec.lojadediscos.entity;
 
+import br.gov.sp.fatec.lojadediscos.controller.View;
+import com.fasterxml.jackson.annotation.JsonView;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,6 +20,7 @@ public class Faixa {
     @Id
     @Column(name = "fai_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(View.AlbumCompleto.class)
     private Long faixaId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -24,12 +28,15 @@ public class Faixa {
     private Album album;
 
     @Column(name = "fai_ordem")
+    @JsonView(View.AlbumCompleto.class)
     private Integer ordem;
 
     @Column(name = "fai_nome")
+    @JsonView(View.AlbumCompleto.class)
     private String nome;
 
     @Column(name = "fai_duracao")
+    @JsonView(View.AlbumCompleto.class)
     private Integer duracao;
 
     public Long getFaixaId() {

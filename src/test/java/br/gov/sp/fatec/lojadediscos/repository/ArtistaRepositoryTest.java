@@ -18,8 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Rollback
 class ArtistaRepositoryTest {
 
-    @Autowired
-    private ArtistaRepository artistaRepository;
+    @Autowired private ArtistaRepository artistaRepository;
 
     @Test
     void deve_inserir_e_consultar_novo_artista_pelo_nome() {
@@ -39,9 +38,9 @@ class ArtistaRepositoryTest {
     @Test
     void deve_deletar_artista() {
         final var artista = new Artista();
-        artista.setNome("Artista1");
-        artistaRepository.save(artista);
+        artista.setNome("ARTISTA_TESTE");
+        final var savedArtista = artistaRepository.save(artista);
         artistaRepository.delete(artista);
-        assertTrue(artistaRepository.findAll().isEmpty());
+        assertThrows(Exception.class, () -> artistaRepository.findById(savedArtista.getArtistaId()).orElseThrow());
     }
 }

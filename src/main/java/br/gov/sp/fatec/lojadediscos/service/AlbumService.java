@@ -6,7 +6,7 @@ import br.gov.sp.fatec.lojadediscos.entity.Album;
 import java.util.List;
 
 public interface AlbumService {
-    void novoAlbum(
+    Album novoAlbum(
             String nomeAlbum,
             Integer anoAlbum,
             List<String> nomesArtistas,
@@ -18,5 +18,5 @@ public interface AlbumService {
 
     void removeAlbumById(long albumId);
 
-    void putAlbum(Album album);
+    Album putAlbum(Album album);
 }

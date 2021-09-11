@@ -27,7 +27,7 @@ create table public.aar_album_artista
 create table public.fai_faixa
 (
     fai_id      bigserial,
-    fai_ordem   integer unique not null,
+    fai_ordem   integer        not null,
     alb_id      bigserial      not null,
     fai_nome    varchar(255)   not null,
     fai_duracao integer        not null,

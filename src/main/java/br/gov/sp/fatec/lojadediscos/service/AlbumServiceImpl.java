@@ -23,7 +23,7 @@ public class AlbumServiceImpl implements AlbumService {
 
     @Transactional
     @Override
-    public void novoAlbum(String nomeAlbum, Integer anoAlbum, List<String> nomesArtistas, List<PostFaixaDTO> listaFaixas) {
+    public Album novoAlbum(String nomeAlbum, Integer anoAlbum, List<String> nomesArtistas, List<PostFaixaDTO> listaFaixas) {
         if(nomesArtistas.isEmpty()) {
             throw new IllegalArgumentException();
         }
@@ -48,7 +48,7 @@ public class AlbumServiceImpl implements AlbumService {
             novoAlbum.addFaixa(novaFaixa);
             i++;
         }
-        albumRepository.save(novoAlbum);
+        return albumRepository.save(novoAlbum);
     }
 
     @Override
@@ -67,8 +67,8 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
-    public void putAlbum(Album album) {
+    public Album putAlbum(Album album) {
         albumRepository.findById(album.getAlbumId()).orElseThrow();
-        albumRepository.save(album);
+        return albumRepository.save(album);
     }
 }

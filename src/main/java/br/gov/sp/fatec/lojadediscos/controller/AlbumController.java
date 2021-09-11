@@ -1,10 +1,8 @@
 package br.gov.sp.fatec.lojadediscos.controller;
 
+import br.gov.sp.fatec.lojadediscos.entity.Album;
 import br.gov.sp.fatec.lojadediscos.service.AlbumService;
-import br.gov.sp.fatec.lojadediscos.util.Views;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,23 +20,18 @@ import static br.gov.sp.fatec.lojadediscos.entity.Album.fromPutAlbumDTO;
 @RestController
 public class AlbumController {
 
-    @Autowired
-    private AlbumService albumService;
+    @Autowired private AlbumService albumService;
 
     @GetMapping(value = "/album/{albumId}", produces = "application/json")
-    public String getAlbum(@PathVariable long albumId) throws JsonProcessingException {
-        final var mapper = new ObjectMapper();
-        mapper.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
-        final var album = albumService.findAlbumById(albumId);
-        return mapper.writerWithView(Views.Public.class).writeValueAsString(album);
+    @JsonView(View.AlbumCompleto.class)
+    public Album getAlbum(@PathVariable long albumId) {
+        return albumService.findAlbumById(albumId);
     }
 
     @GetMapping(value = "/album", produces = "application/json")
-    public String getAlbumByNome(@RequestParam(name = "nome") String nome) throws JsonProcessingException {
-        final var mapper = new ObjectMapper();
-        mapper.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
-        final var album = albumService.findAlbumByNome(nome);
-        return mapper.writerWithView(Views.Public.class).writeValueAsString(album);
+    @JsonView(View.AlbumCompleto.class)
+    public Album getAlbumByNome(@RequestParam(name = "nome") String nome) {
+        return albumService.findAlbumByNome(nome);
     }
 
     @DeleteMapping(value = "/album/{albumId}", produces = "application/json")
@@ -47,13 +40,19 @@ public class AlbumController {
     }
 
     @PutMapping(value = "/album", produces = "application/json")
-    public void putAlbum(@RequestBody PutAlbumDTO album) {
+    @JsonView(View.AlbumCompleto.class)
+    public Album putAlbum(@RequestBody PutAlbumDTO album) {
         final var convertedAlbum = fromPutAlbumDTO(album);
-        albumService.putAlbum(convertedAlbum);
+        return albumService.putAlbum(convertedAlbum);
     }
 
     @PostMapping(value = "/album", produces = "application/json")
-    public void postAlbum(@RequestBody PostAlbumDTO album) {
-        albumService.novoAlbum(album.getNomeAlbum(), album.getAnoAlbum(), album.getNomesArtistas(), album.getListaFaixas());
+    @JsonView(View.AlbumCompleto.class)
+    public Album postAlbum(@RequestBody PostAlbumDTO album) {
+        return albumService.novoAlbum(
+                album.getNomeAlbum(),
+                album.getAnoAlbum(),
+                album.getNomesArtistas(),
+                album.getListaFaixas());
     }
 }

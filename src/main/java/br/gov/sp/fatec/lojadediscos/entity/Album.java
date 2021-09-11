@@ -1,7 +1,7 @@
 package br.gov.sp.fatec.lojadediscos.entity;
 
 import br.gov.sp.fatec.lojadediscos.controller.PutAlbumDTO;
-import br.gov.sp.fatec.lojadediscos.util.Views;
+import br.gov.sp.fatec.lojadediscos.controller.View;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.CascadeType;
@@ -28,14 +28,15 @@ public class Album {
     @Id
     @Column(name = "alb_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(View.AlbumCompleto.class)
     private Long albumId;
 
     @Column(name = "alb_nome")
-    @JsonView(Views.Public.class)
+    @JsonView(View.AlbumResumo.class)
     private String nome;
 
     @Column(name = "alb_ano")
-    @JsonView(Views.Public.class)
+    @JsonView(View.AlbumResumo.class)
     private Integer ano;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -43,7 +44,7 @@ public class Album {
             name = "aar_album_artista",
             joinColumns = @JoinColumn(name = "alb_id"),
             inverseJoinColumns = @JoinColumn(name = "art_id"))
-    @JsonView(Views.Public.class)
+    @JsonView(View.AlbumCompleto.class)
     private Set<Artista> artistas = new HashSet<>();
 
     @OneToMany(
@@ -51,7 +52,7 @@ public class Album {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    @JsonView(Views.Public.class)
+    @JsonView(View.AlbumCompleto.class)
     private List<Faixa> faixas = new ArrayList<>();
 
     public Album() {}
