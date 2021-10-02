@@ -1,4 +1,4 @@
-package br.gov.sp.fatec.lojadediscos.controller;
+package br.gov.sp.fatec.lojadediscos.controller.dto;
 
 public class View {
     public static class AlbumResumo {};

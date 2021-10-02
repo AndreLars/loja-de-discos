@@ -1,14 +1,12 @@
 package br.gov.sp.fatec.lojadediscos.repository;
 
-import br.gov.sp.fatec.lojadediscos.entity.Artista;
+import br.gov.sp.fatec.lojadediscos.entity.Autorizacao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
 @Repository
-public interface ArtistaRepository extends JpaRepository<Artista, Long> {
+public interface AutorizacaoRepository extends JpaRepository<Autorizacao, Long> {
     @PreAuthorize("isAuthenticated()")
-    Optional<Artista> findByNome(String nome);
+    public Autorizacao findByNome(String nome);
 }

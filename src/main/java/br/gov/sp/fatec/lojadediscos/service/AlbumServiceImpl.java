@@ -1,12 +1,13 @@
 package br.gov.sp.fatec.lojadediscos.service;
 
-import br.gov.sp.fatec.lojadediscos.controller.PostFaixaDTO;
+import br.gov.sp.fatec.lojadediscos.controller.dto.PostFaixaDTO;
 import br.gov.sp.fatec.lojadediscos.entity.Album;
 import br.gov.sp.fatec.lojadediscos.entity.Artista;
 import br.gov.sp.fatec.lojadediscos.entity.Faixa;
 import br.gov.sp.fatec.lojadediscos.repository.AlbumRepository;
 import br.gov.sp.fatec.lojadediscos.repository.ArtistaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -23,6 +24,7 @@ public class AlbumServiceImpl implements AlbumService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public Album novoAlbum(String nomeAlbum, Integer anoAlbum, List<String> nomesArtistas, List<PostFaixaDTO> listaFaixas) {
         if(nomesArtistas.isEmpty()) {
             throw new IllegalArgumentException();

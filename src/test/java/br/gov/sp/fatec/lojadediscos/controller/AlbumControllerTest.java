@@ -1,5 +1,9 @@
 package br.gov.sp.fatec.lojadediscos.controller;
 
+import br.gov.sp.fatec.lojadediscos.controller.dto.PostAlbumDTO;
+import br.gov.sp.fatec.lojadediscos.controller.dto.PostFaixaDTO;
+import br.gov.sp.fatec.lojadediscos.controller.dto.PutAlbumDTO;
+import br.gov.sp.fatec.lojadediscos.controller.dto.PutFaixaDTO;
 import br.gov.sp.fatec.lojadediscos.repository.AlbumRepository;
 import br.gov.sp.fatec.lojadediscos.service.AlbumService;
 import com.google.gson.Gson;

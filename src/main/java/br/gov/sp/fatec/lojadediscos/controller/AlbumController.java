@@ -1,5 +1,8 @@
 package br.gov.sp.fatec.lojadediscos.controller;
 
+import br.gov.sp.fatec.lojadediscos.controller.dto.PostAlbumDTO;
+import br.gov.sp.fatec.lojadediscos.controller.dto.PutAlbumDTO;
+import br.gov.sp.fatec.lojadediscos.controller.dto.View;
 import br.gov.sp.fatec.lojadediscos.entity.Album;
 import br.gov.sp.fatec.lojadediscos.service.AlbumService;
 import com.fasterxml.jackson.annotation.JsonView;

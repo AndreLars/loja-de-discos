@@ -1,6 +1,6 @@
 package br.gov.sp.fatec.lojadediscos.service;
 
-import br.gov.sp.fatec.lojadediscos.controller.PostFaixaDTO;
+import br.gov.sp.fatec.lojadediscos.controller.dto.PostFaixaDTO;
 import br.gov.sp.fatec.lojadediscos.entity.Album;
 
 import java.util.List;

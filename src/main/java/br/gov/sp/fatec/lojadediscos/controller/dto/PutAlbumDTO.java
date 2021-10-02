@@ -1,4 +1,4 @@
-package br.gov.sp.fatec.lojadediscos.controller;
+package br.gov.sp.fatec.lojadediscos.controller.dto;
 
 import java.util.ArrayList;
 import java.util.HashSet;

@@ -1,6 +1,6 @@
 package br.gov.sp.fatec.lojadediscos.entity;
 
-import br.gov.sp.fatec.lojadediscos.controller.View;
+import br.gov.sp.fatec.lojadediscos.controller.dto.View;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.Column;

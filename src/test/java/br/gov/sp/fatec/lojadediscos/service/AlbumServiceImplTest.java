@@ -1,7 +1,6 @@
 package br.gov.sp.fatec.lojadediscos.service;
 
-import br.gov.sp.fatec.lojadediscos.controller.PostFaixaDTO;
-import br.gov.sp.fatec.lojadediscos.controller.PutFaixaDTO;
+import br.gov.sp.fatec.lojadediscos.controller.dto.PostFaixaDTO;
 import br.gov.sp.fatec.lojadediscos.repository.AlbumRepository;
 import br.gov.sp.fatec.lojadediscos.repository.ArtistaRepository;
 import br.gov.sp.fatec.lojadediscos.repository.FaixaRepository;
