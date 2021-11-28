@@ -18,5 +18,5 @@ public interface AlbumService {
 
     void removeAlbumById(long albumId);
 
-    Album putAlbum(Album album);
+    Album putAlbum(Album album) throws Exception;
 }

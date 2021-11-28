@@ -24,7 +24,7 @@ public class AlbumServiceImpl implements AlbumService {
 
     @Transactional
     @Override
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Album novoAlbum(String nomeAlbum, Integer anoAlbum, List<String> nomesArtistas, List<PostFaixaDTO> listaFaixas) {
         if(nomesArtistas.isEmpty()) {
             throw new IllegalArgumentException();
@@ -54,23 +54,30 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public Album findAlbumById(long albumId) {
         return albumRepository.findById(albumId).orElseThrow();
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public Album findAlbumByNome(String nome) {
         return albumRepository.findByNome(nome).orElseThrow();
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void removeAlbumById(long albumId) {
         albumRepository.deleteById(albumId);
     }
 
     @Override
-    public Album putAlbum(Album album) {
-        albumRepository.findById(album.getAlbumId()).orElseThrow();
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public Album putAlbum(Album album) throws Exception {
+        final var optionalAlbum = albumRepository.findById(album.getAlbumId());
+        if(optionalAlbum.isEmpty()) {
+            throw new Exception("Album com Id=" + album.getAlbumId() + " não encontrado");
+        }
         return albumRepository.save(album);
     }
 }

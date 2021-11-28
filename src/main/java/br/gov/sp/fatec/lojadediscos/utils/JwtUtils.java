@@ -1,9 +1,7 @@
 package br.gov.sp.fatec.lojadediscos.utils;
 
 import br.gov.sp.fatec.lojadediscos.controller.dto.UsuarioDTO;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

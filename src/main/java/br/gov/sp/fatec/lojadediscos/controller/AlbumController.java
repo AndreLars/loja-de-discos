@@ -44,7 +44,7 @@ public class AlbumController {
 
     @PutMapping(value = "/album", produces = "application/json")
     @JsonView(View.AlbumCompleto.class)
-    public Album putAlbum(@RequestBody PutAlbumDTO album) {
+    public Album putAlbum(@RequestBody PutAlbumDTO album) throws Exception {
         final var convertedAlbum = fromPutAlbumDTO(album);
         return albumService.putAlbum(convertedAlbum);
     }
