@@ -7,23 +7,24 @@ import br.gov.sp.fatec.lojadediscos.entity.Album;
 import br.gov.sp.fatec.lojadediscos.service.AlbumService;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static br.gov.sp.fatec.lojadediscos.entity.Album.fromPutAlbumDTO;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:8081")
 @RestController
 public class AlbumController {
 
-    @Autowired private AlbumService albumService;
+    @Autowired
+    private AlbumService albumService;
+
+    @GetMapping(value = "/albums", produces = "application/json")
+    @JsonView(View.AlbumCompleto.class)
+    public List<Album> getAlbums() {
+        return albumService.findAlbums();
+    }
 
     @GetMapping(value = "/album/{albumId}", produces = "application/json")
     @JsonView(View.AlbumCompleto.class)

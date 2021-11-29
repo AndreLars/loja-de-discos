@@ -26,23 +26,23 @@ public class AlbumServiceImpl implements AlbumService {
     @Override
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Album novoAlbum(String nomeAlbum, Integer anoAlbum, List<String> nomesArtistas, List<PostFaixaDTO> listaFaixas) {
-        if(nomesArtistas.isEmpty()) {
+        if (nomesArtistas.isEmpty()) {
             throw new IllegalArgumentException();
         }
-        if(listaFaixas.isEmpty()) {
+        if (listaFaixas.isEmpty()) {
             throw new IllegalArgumentException();
         }
         final var novoAlbum = new Album();
         novoAlbum.setNome(nomeAlbum);
         novoAlbum.setAno(anoAlbum);
-        for(String nomeArtista : nomesArtistas) {
+        for (String nomeArtista : nomesArtistas) {
             final var novoArtista = new Artista();
             novoArtista.setNome(nomeArtista);
             novoAlbum.addArtista(novoArtista);
             artistaRepository.save(novoArtista);
         }
         int i = 0;
-        for(PostFaixaDTO faixa : listaFaixas) {
+        for (PostFaixaDTO faixa : listaFaixas) {
             final var novaFaixa = new Faixa();
             novaFaixa.setOrdem(i);
             novaFaixa.setNome(faixa.getNome());
@@ -61,6 +61,12 @@ public class AlbumServiceImpl implements AlbumService {
 
     @Override
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    public List<Album> findAlbums() {
+        return albumRepository.findAll();
+    }
+
+    @Override
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public Album findAlbumByNome(String nome) {
         return albumRepository.findByNome(nome).orElseThrow();
     }
@@ -75,7 +81,7 @@ public class AlbumServiceImpl implements AlbumService {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Album putAlbum(Album album) throws Exception {
         final var optionalAlbum = albumRepository.findById(album.getAlbumId());
-        if(optionalAlbum.isEmpty()) {
+        if (optionalAlbum.isEmpty()) {
             throw new Exception("Album com Id=" + album.getAlbumId() + " não encontrado");
         }
         return albumRepository.save(album);

@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin
 public class LoginController {
-    @Autowired private AuthenticationManager authManager;
+    @Autowired
+    private AuthenticationManager authManager;
 
     @PostMapping(path = "/login")
     public UsuarioDTO login(@RequestBody UsuarioDTO login) throws JsonProcessingException {
@@ -24,6 +25,7 @@ public class LoginController {
         auth = authManager.authenticate(auth);
         login.setSenha(null);
         login.setToken(JwtUtils.generateToken(auth));
+        login.setAutorizacao(auth.getAuthorities().toString());
         return login;
     }
 }

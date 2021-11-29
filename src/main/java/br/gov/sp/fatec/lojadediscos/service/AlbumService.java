@@ -14,6 +14,8 @@ public interface AlbumService {
 
     Album findAlbumById(long albumId);
 
+    List<Album> findAlbums();
+
     Album findAlbumByNome(String nome);
 
     void removeAlbumById(long albumId);
